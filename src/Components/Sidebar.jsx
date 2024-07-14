@@ -34,8 +34,8 @@ const Sidebar = ({ setSelectedChat }) => {
   }
 
   return (
-    <div className="h-full bg-slate-50">
-      <div className="flex items-center border-r-gray-300 border-r-[2px] bg-[#ededed] gap-6">
+    <div className="h-full">
+      <div className="flex items-center border-r-gray-300 border-r-[1px] gap-6">
         <div>
           <div className="flex-none">
             <button className="btn btn-square btn-ghost">
@@ -58,17 +58,17 @@ const Sidebar = ({ setSelectedChat }) => {
         <div className="w-full">
           <input
             type="text"
-            placeholder="Type here"
-            className="input input-sm w-[90%] rounded-full max-w-xs"
+            placeholder="Search"
+            className="input input-sm w-[90%] bg-gray-100 rounded-full max-w-xs"
           />
         </div>
       </div>
-      <div className="space-y-2">
+      <div className="grid gap-2">
         {chats.map((chat) => (
           <ChatCards
             key={chat.id}
             chat={chat}
-            onClick={handleChatClick} // Pass onClick handler to ChatCards
+            onClick={handleChatClick} 
           />
         ))}
       </div>

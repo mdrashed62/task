@@ -1,28 +1,31 @@
-
+import { useState } from "react";
+import { Avatar } from "@mui/material";
 
 const ChatCards = ({ chat, onClick }) => {
   const { creator } = chat;
+  const [isSelected, setIsSelected] = useState(false);
   const name = creator ? creator.name : "unknown";
 
+  const handleCardClick = () => {
+    setIsSelected(true);
+    onClick(chat);
+  };
+
   return (
-   <div>
-     <button onClick={() => onClick(chat)}>
-      <div className="flex items-center">
-        <div className="avatar w-14 h-14">
-          <div className="w-24 rounded-full">
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              alt="avatar"
-            />
+    <div className="w-full ml-2">
+      <button
+        onClick={handleCardClick}
+        className={`w-[95%] rounded-lg p-1 hover:bg-gray-200 transition duration-200 ease-in-out ${isSelected ? 'bg-blue-500' : ''}`}
+      >
+        <div className="flex w-[100%] items-center">
+          <Avatar />
+          <div className="ml-3">
+            <p className="font-bold">{name}</p>
+            <p>Last message</p>
           </div>
         </div>
-        <div>
-          <p className="font-bold">{name}</p>
-          <p>Last message</p>
-        </div>
-      </div>
-    </button>
-   </div>
+      </button>
+    </div>
   );
 };
 
