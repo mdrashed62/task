@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import ChatCards from "./ChatCards";
 
-const Sidebar = () => {
+
+const Sidebar = ({ setSelectedChat }) => {
   const [chats, setChats] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://devapi.beyondchats.com/api/get_all_chats?page=1")
@@ -19,12 +21,21 @@ const Sidebar = () => {
           throw new Error(data.message || "Error fetching data");
         }
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching data:", error))
+      .finally(() => setLoading(false));
   }, []);
 
+  const handleChatClick = (chat) => {
+    setSelectedChat(chat);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+
   return (
-    <div className="h-full mt-4 bg-slate-50">
-      <div className="flex items-center gap-6">
+    <div className="h-full bg-slate-50">
+      <div className="flex items-center border-r-gray-300 border-r-[2px] bg-[#ededed] gap-6">
         <div>
           <div className="flex-none">
             <button className="btn btn-square btn-ghost">
@@ -52,11 +63,15 @@ const Sidebar = () => {
           />
         </div>
       </div>
-     <div className="space-y-2">
-     {chats.map((chat) => (
-        <ChatCards key={chat.id} chat={chat}></ChatCards>
-      ))}
-     </div>
+      <div className="space-y-2">
+        {chats.map((chat) => (
+          <ChatCards
+            key={chat.id}
+            chat={chat}
+            onClick={handleChatClick} // Pass onClick handler to ChatCards
+          />
+        ))}
+      </div>
     </div>
   );
 };
