@@ -3,8 +3,9 @@ import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FaEllipsisV, FaPhoneAlt } from "react-icons/fa";
 import backgroundImg from "../assets/telegram1.jpg";
+import { FaArrowLeft } from "react-icons/fa";
 
-const ChatWindow = ({ selectedChat }) => {
+const ChatWindow = ({ selectedChat, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
@@ -36,7 +37,7 @@ const ChatWindow = ({ selectedChat }) => {
   if (!selectedChat) {
     return (
       <div
-        className="h-[100%] text-3xl flex items-center text-opacity-70 justify-center font-bold bg-cover bg-center"
+        className="text-3xl h-full flex items-center text-opacity-70 justify-center font-bold bg-cover bg-center"
         style={{ backgroundImage: `url(${backgroundImg})` }}
       >
         Select a chat to view messages
@@ -49,10 +50,13 @@ const ChatWindow = ({ selectedChat }) => {
   }
 
   return (
-    <div className="h-full">
-      <div className="flex sticky top-0 bg-white p-1 items-center justify-between">
-        <div className="flex items-center ml-4">
-          <Avatar></Avatar>
+    <div className="h-full flex flex-col">
+      <div className="flex bg-white p-1 items-center justify-between">
+        <div className="flex items-center ml-4 ">
+          <button className="lg:hidden mr-4" onClick={onBack}>
+            <FaArrowLeft></FaArrowLeft>
+          </button>
+          <Avatar />
           <div className="ml-3">
             <h3 className="font-bold">
               {selectedChat?.creator?.name || "Default Value"}
@@ -75,7 +79,7 @@ const ChatWindow = ({ selectedChat }) => {
         </div>
       </div>
       <div
-        className="bg-cover bg-center h-[100%]"
+        className="bg-cover bg-center flex-grow"
         style={{ backgroundImage: `url(${backgroundImg})` }}
       >
         <div className="p-14 w-full flex flex-wrap">

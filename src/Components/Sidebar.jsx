@@ -43,9 +43,9 @@ const Sidebar = ({ setSelectedChat }) => {
   }
 
   return (
-    <div className="h-full">
+    <div className="max-h-[800px]">
       <div className="flex mt-4 ml-2 sticky top-0 bg-white items-center border-r-gray-300 border-r-[1px] gap-6 z-50">
-        <div className="relative ">
+        <div className="">
           <button onClick={toggleDropdown} className="btn btn-square btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"

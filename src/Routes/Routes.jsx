@@ -3,6 +3,7 @@ import {
   } from "react-router-dom";
 import Root from "../Leyout/Root";
 import Home from "../Pages/Home";
+import ChatWindow from "../Components/ChatWindow";
 
 
  export const router = createBrowserRouter([
@@ -14,7 +15,10 @@ import Home from "../Pages/Home";
             path: '/',
             element: <Home></Home>
         },
-       
+       {
+        path: '/chatWindow',
+        element: <ChatWindow></ChatWindow>
+       }
       ]
     },
   ]);

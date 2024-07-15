@@ -9,16 +9,16 @@ const ChatCards = ({ chat, onClick, isSelected }) => {
   };
 
   return (
-    <div className="w-full ml-2">
+    <div className="ml-2">
       <button
         onClick={handleCardClick}
         className={`w-[95%] rounded-lg p-1 hover:bg-gray-200 transition duration-200 ease-in-out ${isSelected ? 'bg-blue-500' : ''}`}
       >
-        <div className="flex w-[100%] items-center">
+        <div className="flex items-center">
           <Avatar />
           <div className="ml-3">
             <p className="font-bold opacity-70">{name}</p>
-            <p>Last message</p>
+            <p className="text-sm">Last message</p>
           </div>
         </div>
       </button>
