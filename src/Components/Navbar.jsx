@@ -2,7 +2,7 @@ import { FaEllipsisV,FaRegBookmark, FaEyeSlash,  FaMinus , FaRegWindowMaximize, 
 
 const Navbar = () => {
   return (
-    <div className="border-b-[1px] border-b-black w-full flex items-center justify-between py-2">
+    <div className="border-b-[1px] sticky top-0 bg-white border-b-black w-full flex items-center justify-between py-2">
       <div className="ml-2">
         <p className="text-sm">Telegram Web - Telegram</p>
       </div>

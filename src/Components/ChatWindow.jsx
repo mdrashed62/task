@@ -1,8 +1,7 @@
 import { Search } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaEllipsisV, FaPhoneAlt } from "react-icons/fa";
 import backgroundImg from "../assets/telegram1.jpg";
 
 const ChatWindow = ({ selectedChat }) => {
@@ -12,9 +11,12 @@ const ChatWindow = ({ selectedChat }) => {
   useEffect(() => {
     if (selectedChat) {
       fetch(
-        `https://devapi.beyondchats.com/api/get_chat_messages/${selectedChat.id}`
+        `https://devapi.beyondchats.com/api/get_chat_messages?chat_id=${selectedChat.id}`
       )
         .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
           return res.json();
         })
         .then((data) => {
@@ -24,6 +26,7 @@ const ChatWindow = ({ selectedChat }) => {
             throw new Error(data.message || "Error fetching messages");
           }
         })
+        .catch((error) => console.error("Error fetching messages:", error))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
@@ -33,7 +36,7 @@ const ChatWindow = ({ selectedChat }) => {
   if (!selectedChat) {
     return (
       <div
-        className="h-[100%] text-3xl flex items-center justify-center font-bold bg-cover bg-center"
+        className="h-[100%] text-3xl flex items-center text-opacity-70 justify-center font-bold bg-cover bg-center"
         style={{ backgroundImage: `url(${backgroundImg})` }}
       >
         Select a chat to view messages
@@ -46,24 +49,28 @@ const ChatWindow = ({ selectedChat }) => {
   }
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className=" flex sticky top-0 bg-white p-1 items-center  justify-between">
+    <div className="h-full">
+      <div className="flex sticky top-0 bg-white p-1 items-center justify-between">
         <div className="flex items-center ml-4">
           <Avatar></Avatar>
           <div className="ml-3">
-            <h3 className="font-bold">{selectedChat?.creator?.name || "Default Value"}</h3>
-            <p>Last seen</p>
+            <h3 className="font-bold">
+              {selectedChat?.creator?.name || "Default Value"}
+            </h3>
+            <p className="text-sm text-opacity-50">
+              {selectedChat?.creator?.created_at}
+            </p>
           </div>
         </div>
         <div className="mr-10 flex items-center gap-3">
           <button>
-            <Search></Search>
+            <Search />
           </button>
           <button>
-            <FaPhoneAlt></FaPhoneAlt>
+            <FaPhoneAlt />
           </button>
           <button>
-            <FaEllipsisV></FaEllipsisV>
+            <FaEllipsisV />
           </button>
         </div>
       </div>
@@ -71,13 +78,25 @@ const ChatWindow = ({ selectedChat }) => {
         className="bg-cover bg-center h-[100%]"
         style={{ backgroundImage: `url(${backgroundImg})` }}
       >
-        <h3 className="text-center font-bold pt-6">Chat Window for {selectedChat.creator.name}</h3>
-        
-        <div className="mt-10 w-2/4 flex p-2">
-          <p className=" bg-white rounded-lg p-2 mb-10">
-            {messages?.data?.message}
-            <span className="text-[12px] pl-6">12:40 pm</span>
-          </p>
+        <div className="p-14 w-full flex flex-wrap">
+          {messages.map((message, index) => (
+            <div
+              key={message.id}
+              className={`w-full md:w-1/2 mb-4 p-2 ${
+                index % 2 === 0 ? "pr-2" : "pl-2"
+              } ${index % 2 === 0 ? "pt-20" : "pb-4"}`}
+            >
+              <div className="bg-white rounded-lg p-2 ">
+                {message.message}
+                <span className="text-[12px] pl-6">
+                  {new Date(message.created_at).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
