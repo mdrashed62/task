@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { Avatar } from "@mui/material";
 
-const ChatCards = ({ chat, onClick }) => {
+const ChatCards = ({ chat, onClick, isSelected }) => {
   const { creator } = chat;
-  const [isSelected, setIsSelected] = useState(false);
   const name = creator ? creator.name : "unknown";
 
   const handleCardClick = () => {
-    setIsSelected(true);
-    onClick(chat);
+    onClick(chat); 
   };
 
   return (
@@ -20,7 +17,7 @@ const ChatCards = ({ chat, onClick }) => {
         <div className="flex w-[100%] items-center">
           <Avatar />
           <div className="ml-3">
-            <p className="font-bold">{name}</p>
+            <p className="font-bold opacity-70">{name}</p>
             <p>Last message</p>
           </div>
         </div>

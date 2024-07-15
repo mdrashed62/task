@@ -15,9 +15,6 @@ const ChatWindow = ({ selectedChat }) => {
         `https://devapi.beyondchats.com/api/get_chat_messages/${selectedChat.id}`
       )
         .then((res) => {
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
           return res.json();
         })
         .then((data) => {
@@ -27,7 +24,6 @@ const ChatWindow = ({ selectedChat }) => {
             throw new Error(data.message || "Error fetching messages");
           }
         })
-        .catch((error) => console.error("Error fetching messages:", error))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
@@ -50,12 +46,12 @@ const ChatWindow = ({ selectedChat }) => {
   }
 
   return (
-    <div className="h-full">
-      <div className=" flex items-center justify-between">
+    <div className="h-full overflow-y-auto">
+      <div className=" flex sticky top-0 bg-white p-1 items-center  justify-between">
         <div className="flex items-center ml-4">
           <Avatar></Avatar>
           <div className="ml-3">
-          <h3>{selectedChat?.creator?.name || 'Default Value'}</h3>
+            <h3 className="font-bold">{selectedChat?.creator?.name || "Default Value"}</h3>
             <p>Last seen</p>
           </div>
         </div>
@@ -75,10 +71,14 @@ const ChatWindow = ({ selectedChat }) => {
         className="bg-cover bg-center h-[100%]"
         style={{ backgroundImage: `url(${backgroundImg})` }}
       >
-        <h3>Chat Window for {selectedChat.creator.name}</h3>
-        {messages.map((message) => (
-          <div key={message.id}>{message.message}</div>
-        ))}
+        <h3 className="text-center font-bold pt-6">Chat Window for {selectedChat.creator.name}</h3>
+        
+        <div className="mt-10 w-2/4 flex p-2">
+          <p className=" bg-white rounded-lg p-2 mb-10">
+            {messages?.data?.message}
+            <span className="text-[12px] pl-6">12:40 pm</span>
+          </p>
+        </div>
       </div>
     </div>
   );
